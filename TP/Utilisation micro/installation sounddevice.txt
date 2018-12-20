@@ -1,0 +1,52 @@
+Installation du package sounddevice :
+  lancer Anaconda Prompt
+  taper conda install -c conda-forge python-sounddevice
+  accepter l'installation
+
+Copie de la console lors de l'installation :
+(base) C:\Users\frederic>conda install -c conda-forge python-sounddevice
+Solving environment: done
+
+## Package Plan ##
+
+  environment location: C:\Utilitaires\Conception\Anaconda
+
+  added / updated specs:
+    - python-sounddevice
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    conda-4.5.11               |        py36_1000         655 KB  conda-forge
+    portaudio-19.6.0           |                0          89 KB  conda-forge
+    python-sounddevice-0.3.12  |             py_0          28 KB  conda-forge
+    certifi-2018.4.16          |           py36_0         143 KB  conda-forge
+    ------------------------------------------------------------
+                                           Total:         915 KB
+
+The following NEW packages will be INSTALLED:
+
+    portaudio:          19.6.0-0         conda-forge
+    python-sounddevice: 0.3.12-py_0      conda-forge
+
+The following packages will be UPDATED:
+
+    certifi:            2018.4.16-py36_0             --> 2018.4.16-py36_0 conda-forge
+    conda:              4.5.4-py36_0                 --> 4.5.11-py36_1000 conda-forge
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages
+conda-4.5.11         |  655 KB | ############################################################################## | 100%
+portaudio-19.6.0     |   89 KB | ############################################################################## | 100%
+python-sounddevice-0 |   28 KB | ############################################################################## | 100%
+certifi-2018.4.16    |  143 KB | ############################################################################## | 100%
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+
+(base) C:\Users\frederic>
+
