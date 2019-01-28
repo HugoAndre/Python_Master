@@ -80,8 +80,8 @@ if __name__ == '__main__':
     
     app = QApplication(sys.argv)
     ex = Example()
-    #app.exec()
-    #sys.exit(app.exec_())
+    app.exec()
+    sys.exit(app.exec_())
 
 # Redémarrer le noyaux après l'éxécution sinon risque de plantage
     

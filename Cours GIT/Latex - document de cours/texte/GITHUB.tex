@@ -1,0 +1,98 @@
+Lorsque vous travaillez sur un projet sur votre machine, il est important d'avoir un backup de votre code sur une autre machine, au cas où la vôtre tombe en panne par exemple. Une fois que vous avez travaillé sur votre code et effectué vos commits, vous allez donc les envoyer sur un \textbf{remote}, c'est-à-dire une autre machine qui peut être : 
+
+\begin{itemize}
+\item \textbf{interne} (si vous avez la chance d'avoir plusieurs ordinateurs ;) )
+\item \textbf{externe} (grâce à des services comme GitHub ou BitBucket). Utiliser un remote externe va aussi vous permettre de travailler sur des projets à plusieurs, pour que tout le monde ait accès aux dernières modifications de chacun sur un remote partagé. 
+\end{itemize}
+
+
+\section{GitHub, qu'est-ce que c'est ?}\index{Github}
+Comme nous l'avons vu dans le chapitre précédent, GitHub est un service en ligne qui permet d'héberger ses repositories de code. GitHub est un outil gratuit pour héberger du code open source, et propose également des plans payants pour les projets de code privés. C'est le numéro 1 mondial et il héberge plus d'une dizaine de millions de repositories ! \\
+
+Pour créer votre compte GitHub, rendez-vous sur sa page d'accueil \url{https://github.com/} où vous pourrez entrer un nom d'utilisateur, un mot de passe, etc. Une fois votre compte créé, vous aurez accès à votre dashboard et découvrirez toutes les fonctionnalités de GitHub. Vous allez pouvoir notamment : 
+\begin{itemize}
+\item Communiquer avec d'autres développeurs et signaler des problèmes de code en déclarant des "issues" ;
+\item Partager des morceaux de code en ligne à l'aide de "gists" ;
+\item Proposer des modifications de code à d'autres repos en faisant des "pull requests" ;
+\item Et même récupérer du code depuis un autre repository.
+\end{itemize}
+Ça tombe bien, ce dernier point est justement l'objet du prochain chapitre !
+
+\begin{remark} Mais avant ça, une dernière petite astuce pour mieux vous y retrouver dans votre code en ligne : appuyez sur la touche t, vous pourrez alors faire une recherche dans vos noms de fichiers en tapant un mot / des lettres clé ! \end{remark}
+
+\subsection{Récupérez du code d'un autre repository}\index{repository, récupérer}
+Vous devez maintenant avoir un compte sur GitHub. Si ce n'est pas le cas, rendez-vous au chapitre précédent pour créer votre compte. Connectez-vous à votre compte avec les identifiants que vous venez de créer dans le chapitre précédent, vous arriverez sur votre tableau de bord ou "dashboard". Voyons dans cette vidéo comment récupérer du code d'un autre repository à partir de ce dashboard !\\
+
+À partir de GitHub, vous pouvez copier un repository sur votre machine. Pour cela, il vous suffit de rechercher le repository qui vous intéresse sur GitHub, de vous y placer, puis d'utiliser l'option "clone URL" en bas à droite de l'écran. \\
+
+Cette option vous propose un lien SSH, HTTPS ou Subversion. Ici, nous allons choisir un lien HTTPS, le copier, puis coller ce lien en utilisant la commande \textbf{git clone} dans le dossier que vous aurez choisi sur votre machine : 
+
+\ \mint{python}|git clone lienFourniParGitHub |
+
+\section{Créez votre premier repository}\index{repository, créer}
+Dans le chapitre précédent, vous avez vu comment récupérer un repository partagé sur GitHub. À votre tour de partager vos projets sur GitHub ! Vous allez voir ici comment créer un repository sur votre compte GitHub. 
+
+\begin{remark} Petit rappel : GitHub est gratuit pour partager du code open-source donc public à tous. Si vous voulez créer des repository privés, GitHub propose des plans payants.\end{remark} 
+
+C'est parti pour créer votre premier repository open-source :) . Tout d'abord, si ce n'est pas déjà fait, connectez-vous à votre compte GitHub. Cliquez sur le bouton "Create new" symbolisé par un signe "+" en haut à droite de votre écran, puis "New repository". 
+
+GitHub vous demandera alors de préciser quelques détails sur votre repository:
+\begin{itemize}
+\item son nom
+\item sa description
+\item son statut public ou privé. Ici, nous partageons du code open-source, c'est donc public et gratuit :).
+\end{itemize}
+
+\
+
+\textit{Vous avez également une option "Initialise with a README", qui vous permet de cloner votre repository sur votre machine. Cette option est à cocher uniquement dans le cas où vous n'avez pas encore créé le repository en question sur votre machine (ce qui est bien notre cas ici, cochez donc !)}\\
+
+Et voilà, vous avez créé votre premier repository sur GitHub ! Vous pouvez maintenant :
+\begin{enumerate}
+\item voir les commits effectués sur votre repository (par vous et vos éventuels contributeurs) 
+\item cloner votre projet et le ramener sur votre machine avec la commande git clone que l'on a vue dans le chapitre précédent
+\end{enumerate}
+
+\
+
+... et en parlant de la commande git clone\index{repository, clone}\index{cloner}, notez que vous pouvez cloner votre repo avec deux options : 
+\begin{enumerate}
+\item L'option HTTPS que je vous ai  invité à utiliser dans ce cours : c'est l'option la plus simple, qui demande de fournir vos identifiants GitHub (nom d'utilisateur et mot de passe) à chaque fois que vous faites un git clone. 
+\item L'option SSH qui est plus pratique car elle ne vous demande pas vos identifiants à chaque fois. Par contre, pour l'utiliser, il faut générer une clé SSH, ce qui est un peu plus compliqué pour ce cours d'initiation. Mais une fois que vous vous sentez plus à l'aise, je vous invite à consulter la marche à suivre dans la documentation de GitHub et à utiliser cette option SSH.  
+\end{enumerate}
+
+\section{Envoyez votre code sur GitHub}
+Vous avez clôné votre repo GitHub sur votre machine. Comment faire pour synchroniser les modifications que vous faites dans votre repo sur votre machine avec votre repo sur GitHub ?
+\begin{itemize}
+\item À vos marques... Ouvrez votre terminal et placez-vous dans votre repo local.
+\item Prêts... Faites un/des commit(s) des modifications que vous avez ajoutées sur ce repo.
+\item Pushez! Envoyez ces modifications sur votre repo GitHub en utilisant la commande git push: \mint{python}|git push origin master|
+\end{itemize}
+
+\ 
+
+Cette commande demande à Git : \
+"Envoie mes modifs dans la branche master de mon remote origin."\\
+
+La branche \textbf{master} \index{master} est la branche qui contient le code courant de votre repo GitHub. Ne vous préoccupez pas trop du terme "branche", on y reviendra par la suite.\\
+
+ Le remote sur lequel vous envoyez votre code est appelé \textbf{origin} par défaut. Ici, ce remote est GitHub. Si vous aviez plusieurs remotes (par exemple, votre téléphone portable ou un 2e ordinateur), vous pourriez envoyer votre code sur un remote "téléphone" ou "ordi2".\\
+ 
+Une fois que vous avez "pushé" votre code en ligne, vous pouvez aller consulter votre repo sur GitHub. Vous y retrouverez les derniers commits effectués en cliquant sur l'option "Commits" dans votre repo. \\
+
+Ça vous donne l'historique de vos commits, comme la commande \textbf{git log}, mais dans une interface graphique plus agréable qui vous permet de cliquer sur chaque commit et de voir les modifications associées dans chaque fichier. 
+
+\section{Récupérez des modifications}
+Dans le chapitre précédent, vous avez vu comment envoyer vos modifications locales vers votre repo GitHub avec git push. Mais si vous modifiez votre repo GitHub en ligne, ou si vous travaillez avec d'autres personnes dessus et qu'elles envoient leurs modifications locales sur le repo en ligne, votre code local ne sera plus à jour.\\
+
+Pour récupérer en local les dernières modifications du repo GitHub, il vous faut utiliser la commande git pull : 
+
+\mint{python}|git pull origin master|
+
+Vous reconnaissez la même syntaxe que pour la commande git push, qui demande ici à GitHub : 
+
+Envoie dans mon répertoire local les dernières modifications de la branche master située sur mon remote origin (qui correspond ici à GitHub). 
+
+\begin{remark} Pensez à synchroniser régulièrement votre code local avec vos repos en ligne à l'aide des commandes git push et pull. C'est particulièrement important lorsque vous travaillez à plusieurs sur un projet, pour que tout le monde avance sur la même base ! \end{remark}
+
+Pensez à synchroniser régulièrement votre code local avec vos repos en ligne à l'aide des commandes \textbf{git push} et \textbf{pull}. C'est particulièrement important lorsque vous travaillez à plusieurs sur un projet, pour que tout le monde avance sur la même base !

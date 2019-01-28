@@ -1,0 +1,85 @@
+\documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
+\input{structure.tex} % Insert the commands.tex file which contains the majority of the structure behind the template
+\input{myPackages.tex}
+\newcommand{\myTitle}{Git}
+\newcommand{\mySubtitle}{Via la plateforme GITHUB}
+\newcommand{\myAuthor}{H. ANDR\'{E}}
+
+% Compiling this template:
+% This template uses biber for its bibliography and makeindex for its index.
+% When you first open the template, compile it from the command line with the 
+% commands below to make sure your LaTeX distribution is configured correctly:
+%
+% 1) pdflatex main
+% 2) makeindex main.idx -s StyleInd.ist
+% 3) biber main
+% 4) pdflatex main x 2
+%
+% After this, when you wish to update the bibliography/index use the appropriate
+% command above and make sure to compile with pdflatex several times 
+% afterwards to propagate your changes to the document.
+
+\begin{document}
+
+%-----------------------------------------------
+% Rappel de scommandes spéciales:
+% \mint{python}||
+%\begin{remark} \end{remark}
+%\begin{corollary}[title] blabla  \end{corollary}
+%\begin{definition}[name] blabla \end{definition}
+%\begin{theorem}[Name] blabla \end{theorem}
+%%-----------------------------------------------
+
+
+\include{texte/PageTitre}
+
+
+\chapterimage{chapter_head_2.pdf} % Chapter heading image
+
+\chapter{Introduction}
+
+\include{texte/preface}
+
+\chapter{GIT}
+
+\include{texte/intro}
+
+\chapter{Github}
+
+\include{texte/GITHUB}
+
+\chapter{les branches}
+
+\include{texte/branche}
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\chapter*{Bibliography}
+%\addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}} % Add a Bibliography heading to the table of contents
+%
+%%------------------------------------------------
+%
+%\section*{Articles}
+%\addcontentsline{toc}{section}{Articles}
+%\printbibliography[heading=bibempty,type=article]
+%
+%%------------------------------------------------
+%
+%\section*{Books}
+%\addcontentsline{toc}{section}{Books}
+%\printbibliography[heading=bibempty,type=book]
+
+%----------------------------------------------------------------------------------------
+%	INDEX
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage % Make sure the index starts on an odd (right side) page
+\phantomsection
+\setlength{\columnsep}{0.75cm} % Space between the 2 columns of the index
+\addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}} % Add an Index heading to the table of contents
+\printindex % Output the index
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

@@ -1,0 +1,192 @@
+\subsection{création}\index{branches, création}
+Un élément que vous allez être souvent amenés à utiliser lorsque vous travaillez sur un repo, ce sont les branches. Les branches permettent de travailler sur des versions de code qui divergent de la branche principale contenant votre code courant.\\ 
+
+\begin{remark} 
+À quoi ça sert de créer des variations de la branche principale ?\end{remark}
+
+Travailler sur plusieurs branches est très utile lorsque vous souhaitez tester une expérimentation sur votre projet, ou encore pour vous concentrer sur le développement d'une fonctionnalité spécifique.\\
+
+Voyons les commandes Git qui vous permettent de manipuler les branche.
+\begin{itemize}
+\item  Lorsque vous initialisez un repo Git, votre code est placé dans la branche principale appelée master par défaut.
+\item Pour voir les branches présentes dans votre repo, utilisez la commande \textbf{git branch}. Elle vous retournera les branches présentes, et ajoutera une étoile devant la branche dans laquelle vous êtes placés. Par exemple, dans le 1er repos que vous avez créé dans la partie précédente, la commande git branch n'affichera qu'une seule branche, la branche principale dans laquelle vous vous situez : * master. 
+
+\item Pour créer une nouvelle branche, il vous suffit d'ajouter le nom de la branche à créer à la suite de la commande précédente :
+\mint{python}|git branch nouvelle-branche|
+\item Pour vous placer dans une autre branche à l'intérieur de votre repo, vous allez avoir besoin d'un nouveau mot-clé : \textbf{checkout} \index{checkout}\index{branches, checkout} : 
+
+\mint{python}|git checkout nouvelle-branche|
+\begin{remark} Petite astuce pour manipuler vos branches : vous pouvez utiliser la commande 'git checkout -b' pour créer une branche et vous y positionner. Ainsi, au lieu de taper la commande suivante pour créer votre branche :\mint{python}|git branch ma-branche|
+puis une deuxième commande pour vous y positionner
+\mint{python}|git checkout ma-branche|
+vous pouvez regrouper ces deux opérations en une seule commande : 
+
+\mint{python}|git checkout -b ma-branche|
+\end{remark}
+\end{itemize}
+ 
+
+\section{Fusionnez des branches}\index{br	anches, fusionner}
+
+ Lorsque vous travaillez sur plusieurs branches, il va souvent vous arriver de vouloir ajouter  dans une branche A les mises à jour que vous avez faites dans une autre branche B. Pour cela, on se place dans la branche A :
+
+\mint{python}|git checkout brancheA|
+Puis on utilise la commande git merge : 
+
+\mint{python}|git merge brancheB|
+
+Fusionner des branches est une pratique courante lorsque vous travaillez sur un projet : vous devez toujours chercher à remettre les modifications faites sur vos différentes branches dans la branche principale master.  
+
+\section{Résolvez un conflit}
+Vous avez vu dans le chapitre précédent comment fusionner des branches. Nous avons utilisé un exemple assez simple où tout s'est bien passé. Mais il arrive très souvent qu'il y aie des conflits entre les deux branches qui empêchent de les fusionner, par exemple lorsque plusieurs personnes travaillent en même temps sur un même fichier.\\
+
+Exemple : votre branche master contient un fichier Hello.md avec une ligne de texte : "Hello les amis !". Votre branche universal contient un fichier Hello.md avec une ligne de texte : "Hello tout le monde !".\\
+
+Si vous tentez de fusionner la branche universal dans la branche master :
+
+\mint{python}|git checkout master|
+
+\mint{python}|git merge universal|
+
+
+Git va reconnaître qu'il existe un conflit entre les deux branches car la 1re ligne du fichier Hello est différente dans chacune des branches et afficher le message suivant : 
+
+\mint{python}|Auto-merging hello.md
+CONFLICT (content): Merge conflict in hello.md
+Automatic merge failed; fix conflicts and then commit the result.
+|
+
+Vous allez donc devoir ouvrir le fichier hello.md dans votre éditeur de texte. \\
+
+Vous allez alors voir les différences de contenu du fichier hello.md entre les deux branches, et vous pouvez choisir quel contenu garder pour la branche master dans laquelle vous faites le merge. Par exemple, vous pouvez garder "Hello les amis", sauvegarder le fichier et revenir dans la console.\\
+
+Maintenant que vous avez résolu le conflit, il vous reste à le dire à Git ! Car pour l'instant, si vous faites un git status, git vous dira que vous avez des branches non fusionnées ("unmerged paths"). Pour cela, faites un commit sans message : 
+
+\mint{python}|git commit|
+
+Git va détecter que vous avez résolu le conflit et vous proposer un message de commit par défaut.\\
+
+Vous pouvez  alors personnaliser le message du commit si vous le souhaitez. Dans notre cas, la résolution étant assez simple, nous allons garder le message proposé par défaut et le sauvegarder en tapant :x. \\
+
+Git va alors vous confirmer que vos branches ont été fusionnées, et si vous consulter l'historique des commits avec git log, vous verrez apparaître le dernier commit de résolution du conflit avec le message :
+
+\mint{python}| Merge branch 'universal' Conflicts: hello.md|
+       
+Ici, nous avons résolu le conflit en ouvrant directement le fichier posant problème dans la console. Sachez qu'il existe aussi des outils proposant des interfaces graphiques pour comparer les différences de versions d'un fichier. Personnellement je préfère rester dans la console, mais c'est une question de goût ; n'hésitez pas à tester ces outils si vous êtes plus visuels ! À vous de tester parmi les nombreux outils existants : vimdiff, meld, opendiff, kdiff3, tkdiff, xxdiff, tortoisemerge, gvimdiff, diffuse, ecmerge, p4merge, araxis, emerge. Pour lancer l'un de ces outils externes de merge avec la commande git mergetool, par exemple : 
+
+\mint{python}|git mergetool vimdiff|
+
+\section{Retrouvez qui a fait une modification}
+Pour retrouver qui a modifié une ligne précise de code dans un projet, faire une recherche avec git log peut s'avérer compliqué, surtout si le projet contient beaucoup de commits. Il existe un autre moyen plus direct de retrouver qui a fait une modification particulière dans un fichier : la commande \textbf{git blame}.\index{blame}
+
+\mint{python}|git blame nomdufichier.extension|
+
+Cette commande liste toutes les modifications qui ont été faites sur le fichier ligne par ligne. À chaque modification est associé le début du sha du commit correspondant. Par exemple : 
+
+\mint{python}|05b1233 (Marc Gauthier 2014-08-08 00:31:02 1) \# Une liste|
+
+Pour retrouver pourquoi cette modification a été faite, vous avez deux possibilités : 
+\begin{itemize}
+\item Faire un \textbf{git log} et rechercher le commit dont le sha commence par 05b1233. 
+\item Utiliser la commande \textbf{git show} qui vous renvoie directement les détails du commit recherché en saisissant le début de son sha : 
+
+\mint{python}|git show 05b1233|
+\end{itemize}
+
+On en revient à un point essentiel : pensez à écrire des messages clairs et précis lorsque vous faites vos commits. Cela vous facilitera la vie lorsque vous y reviendrez dessus plus tard, et la vie de vos collaborateurs ! Et si vous tombez sur une modification pour laquelle le message de commit n'est pas assez explicite, gardez en tête que vous pouvez contacter l'auteur du commit pour en savoir plus. 
+
+\section{ignorer des fichiers}
+Ne manquez pas ce chapitre ! Pour des raisons de sécurité et de clarté, il est important d'ignorer certains fichiers dans Git, tels que :
+
+Tous les fichiers de configuration (config.xml, databases.yml, .env...)
+
+Les fichiers et dossiers temporaires (tmp, temp/...)
+
+Les fichiers inutiles comme ceux créés par votre IDE ou votre OS
+
+Le plus crucial est de ne JAMAIS versionner une variable de configuration, que ce soit un mot de passe, une clé secrète ou quoi que ce soit de ce type. Versionner une telle variable conduirait à une large faille de sécurité, surtout si vous mettez votre code en ligne sur GitHub !
+
+ 
+
+Si vous avez ce type de variables de configuration dans votre code, déplacez-les dans un fichier de configuration et ignorez ce fichier dans Git : nous allons voir comment faire cela dans la vidéo ci-dessous en utilisant le fichier .gitignore.
+
+Si le code a déjà été envoyé sur GitHub, partez du principe que quelqu'un a pu voir vos données de configuration et mettez-les à jour (changez votre mot de passe ou bien générez une nouvelle clé secrète).
+
+
+ Pour télécharger les vidéos de ce cours, devenez Premium
+Créez le fichier .gitignore pour y lister les fichiers que vous ne voulez pas versionner dans Git (les fichiers comprenant les variables de configuration, les clés d'APIs et autres clés secrètes, les mots de passe, etc.). Listez ces fichiers ligne par ligne dans .gitignore en indiquant leurs chemins complets, par exemple : 
+
+motsdepasse.txt
+config/application.yml
+Le fichier .gitignore doit être tracké comme vos autres fichiers dans Git : vous devez donc l'ajouter à l'index et le committer. 
+
+\subsection{Évitez des commits superflus}\index{gitignore}
+Imaginez le scénario suivant : vous êtes en train de travailler sur une fonction, lorsque tout à coup une urgence survient et un collègue vous demande de résoudre un bug dans un autre fichier et/ou une autre branche. \\
+
+Si vous faites un commit des modifications sur votre fonction à ce stade, cela va alourdir votre historique car vous n'avez pas terminé votre tâche.\\
+
+Comment faire pour ne pas perdre vos modifications en cours avant de passer à l'urgence à traiter ?\\
+
+Et bien vous pouvez mettre de côté vos modifications en cours avec la commande :\index{stash}
+
+\mint{python}|git stash|
+
+Vous pouvez alors vous rendre dans la branche/le fichier que vous devez traiter à l'instant, finir et committer vos modifs. Une fois que vous avez réglé cette urgence, revenez sur la branche sur laquelle vous étiez en train de travailler, et récupérez les modifications que vous aviez mises de côté avec la commande : 
+
+\mint{python}|git stash pop|
+ 
+
+Attention, pop vide votre stash des modifications que vous aviez rangées dedans. Donc une fois que vous avez récupéré ces modifications dans votre branche, il vous faut finir votre tâche et les committer ! (ou bien les remettre de côté en exécutant à nouveau la commande \textbf{git stash}).\\
+
+Si vous voulez garder les modifications dans votre stash, vous pouvez utiliser \textbf{apply} à la place de pop : 
+
+\mint{python}|git stash apply|
+
+\section{Contribuez à des projets open source}
+Un des aspects passionnants lorsque vous faites du développement, c'est que vous pouvez apporter votre pierre à plein d'édifices en contribuant à des projets open-source. \\
+
+Nous allons voir ici comment proposer une modification à un projet hébergé sur GitHub. 
+On appelle ça faire une \textbf{pull request}\index{pull request} (PR).\\
+
+Le premier réflexe à avoir est de regarder dans la documentation du projet si des recommandations sont précisées sur comment faire une pull request. Certains peuvent demander d'utiliser un format spécifique pour les messages de commit et de PR, d'ajouter des tests, etc. En général, vous trouverez ces recommandations dans le fichier \textbf{README}, avec un intitulé "Contributing" ou "Pull requests". \\
+
+Voici le procédé classique que vous aurez à adapter en fonction des recommandations trouvées dans la doc : 
+
+\textbf{Step 1 – Récupérez le repo auquel vous souhaitez contribuer
+}\
+
+Tout d'abord, faites un fork du repo auquel vous souhaitez contribuer.
+Cela signifie simplement faire une copie du repo en question sur votre compte GitHub. Pour cela, rendez-vous sur le repo GitHub (ici pour exemple : \url{https://github.com/oc-courses/intro-git-github}) et cliquez sur "fork" en haut à droite de la page. Ensuite, clonez votre copie depuis GitHub sur votre machine. Vous savez faire, il vous suffit de copier l'URL https de la copie du repo que vous avez "forké" sur votre compte GitHub et de la coller dans votre terminal en faisant un git clone. Dans notre exemple, ça donnerait quelque chose comme ça : 
+
+\mint{python}|git clone https://github.com/votre-username/intro-git-github.git|
+
+\textbf{Step 2 – Faites vos modifications
+} \
+
+Sur votre machine, placez-vous dans le repo que vous venez de créer, créez une nouvelle branche où vous allez faire vos modifications et placez-vous dedans :
+
+\mint{python}|git checkout -b my-new-feature|
+
+ Faites vos modifications dans la nouvelle branche et "committez"-les dans Git en veillant à rédiger des messages de commit clairs, par exemple : 
+
+\mint{python}|git commit -m "Added feature allowing users to comment on the blog articles"|
+
+Notez que j'ai écrit la nouvelle branche et le message en anglais. Beaucoup de projets sur GitHub sont en anglais, vous devrez donc souvent faire vos contributions en Anglais. You can do it! ;)\\ 
+
+Envoyez vos modifications sur GitHub en faisant un git push de votre nouvelle branche : 
+
+\mint{python}|git push origin my-new-feature|
+
+Notez que nous ne faisons pas un "git p
+ush origin master" : ce n'est pas votre branche principale "master" mais bien votre nouvelle branche "my-new-feature" que vous envoyez sur GitHub ! 
+
+\textbf{Step 3 – Proposez vos modifications au projet}
+Une fois vos modifications envoyées sur votre fork GitHub, il vous reste à transmettre votre demande de modifications en faisant une pull request. Pour cela, placez-vous sur votre fork GitHub, sur votre nouvelle branche, et cliquez sur "Compare \& pull request".
+
+ Vous allez alors être amenés à rédiger un message pour présenter votre proposition de modifications à l'auteur du projet.
+
+Là encore, ce sera souvent en anglais, pensez à vous adapter à votre interlocuteur ! Soignez votre message : soyez poli, clair et concis et tout se passera bien ! 
+
+Vous remarquerez que sous votre message, GitHub propose un comparatif détaillé de vos modifications par rapport au projet auquel vous souhaitez contribuer. 
+
+Une fois votre pull request envoyée, l'auteur du projet consultera vos propositions, et vous recevrez une notification par GitHub lorsqu'il/elle les aura intégrées ou refusées. Il se peut aussi qu'il/elle vous contacte pour vous demander des précisions avant d'accepter ou non votre PR. 

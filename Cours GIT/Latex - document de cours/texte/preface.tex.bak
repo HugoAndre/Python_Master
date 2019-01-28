@@ -1,0 +1,9 @@
+Vous écrivez un peu de code et souhaitez collaborer avec d'autres développeurs ? Vous voulez toujours savoir pourquoi une modification a été faite et ne plus risquer de perdre des jours de travail ? Vous avez clairement besoin de versionner votre code! \\
+
+Un logiciel de gestion de versions est un outil incontournable pour tout développeur. \\
+
+Il en existe de nombreux, et dans ce cours vous découvrirez Git, le logiciel créé par \textbf{Linus Torvald}, auteur du Kernel Linux.\\
+
+Vous découvrirez ce qu'est la gestion de version et les avantages que cela apporte. \\
+
+Puis, vous plongerez dans l'univers de Git : commit, branches, merge... tous ces termes n'auront plus de secrets pour vous ! Enfin vous apprendrez à utiliser GitHub pour héberger votre code et collaborer facilement sur des projets open-source.

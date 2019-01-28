@@ -1,0 +1,220 @@
+\section{Pourquoi faire?}
+Dans ce cours, vous allez prendre en main Git, un outil qui va vous permettre de versionner votre code, c'est-à-dire gérer les versions de votre code au fur et à mesure que vous le modifiez.\\
+
+\begin{remark} Pourquoi versionner votre code ?  \end{remark}
+
+
+Lorsque vous travaillez sur un projet de code, vous allez régulièrement y apporter des modifications, et par moments ces modifications vont provoquer des bugs. Lorsque vous revenez sur votre projet après quelques jours ou même quelques heures, il peut être difficile de vous souvenir des dernières modifications que vous avez effectuées et de retrouver vos repères dans votre code. \\
+
+Avec un logiciel de versioning comme Git, vous pouvez garder la trace de toutes les modifications faites sur votre code pour pouvoir vous y retrouver à tout moment. À chaque fois que vous faites une série de modifications (créer un fichier, supprimer un fichier, modifier un texte dans un fichier, etc.),  vous allez pouvoir enregistrer ces modifs dans un \textbf{commit}.\\
+
+Par exemple, si vous travaillez sur un formulaire de newsletter en ligne :
+\begin{itemize}
+\item Vous allez d'abord faire une 1re série de modifications pour créer la base HTML/CSS de votre formulaire.
+=> Une fois ces modifications faites, vous pourrez faire un premier commit dans Git et le nommer "1re passe sur le formulaire de newsletter".
+  
+\item Ensuite, vous rendrez peut-être votre formulaire dynamique avec du PHP.  
+=> 2e commit : "PHP ajouté".
+
+\item Enfin, un collègue vous demandera de changer le wording sur le champs du formulaire.  
+=> 3e commit : "Texte reformulé".
+
+\end{itemize}
+ \
+
+\begin{definition}[commit]\index{commit} Un commit correspond donc à une version de votre code à un instant t.\end{definition}
+
+La somme de tous les commits constitue l'historique de votre projet. Et l'intérêt d'un logiciel de versioning comme Git, c'est que vous pouvez vous placer à n'importe quel endroit de cet historique. En cas de bug par exemple, ou lorsque vous êtes plusieurs à travailler sur un même projet, revenir en arrière sur une précédente version du code peut s'avérer bien utile... tellement utile qu'utiliser un logiciel de versioning est considéré comme une habitude indispensable pour tout développeur digne de ce nom ! \\
+
+
+Comme dit Jeff Atwood, un développeur très actif qui a notamment créé Stack Overflow \url{https://stackoverflow.com/}, un forum d'entraide pour les développeurs que vous serez souvent amenés à utiliser lorsque vous vous poserez des questions dans vos projets de code :
+
+"Si le code n'est pas enregistré dans un logiciel de gestion de version, il n'existe pas."
+
+\section{Logiciels de versionning}
+Il existe de nombreux logiciels de gestion de version, qui peuvent être basés sur différents modèles :
+
+\begin{itemize}
+\item \textbf{Modèle centralisé} \index{centralisé, modèle} : un serveur central contrôle toute la base de code du logiciel. \\
+
+Exemples de logiciels de versioning utilisant un modèle centralisé : SVN, CVS, Google Drive...
+
+\item \textbf{Modèle distribué }\index{distribué, modèle}: toutes les machines ont accès à la base de code, pas besoin de passer par un serveur central. \\
+
+Exemples de logiciels de versioning utilisant un modèle distribué : Git, Mercurial, Bazaar.
+
+\end{itemize}
+
+Exemples de logiciels de versioning utilisant un modèle centralisé : SVN, CVS, Google Drive...\\
+
+
+Le modèle distribué présente plusieurs avantages : 
+\begin{itemize}
+\item Moins de risques de perdre son code puisqu'il est accessible par plusieurs sources.
+\item On peut travailler plus rapidement et sans être connecté à Internet puisqu'il n'y a pas besoin de se connecter à un serveur central.
+\end{itemize}
+
+ \
+
+En plus des avantages du modèle distribué, Git a un autre atout : une grande communauté ! Cela facilite la collaboration et les échanges fructueux entre développeurs.
+
+\section{Les commandes de base de la console}\index{commandes de bases}
+
+\begin{itemize}
+\item[PWD] La commande pwd vous permet de connaître votre répertoire courant (tapez pwd puis Entrée)
+\item[ls] La commande ls vous permet de voir la liste des fichiers et répertoires dans le dossier courant. Si vous souhaitez voir les éléments de votre répertoire courant sous forme de liste, vous pouvez ajouter l'option '-l' à la commande ls. Vous pouvez également afficher plus d'informations sur ces éléments en utilisant l'option '-a'. 
+\item[cd] La commande cd vous permet de vous placer dans un répertoire. Notez que pour revenir au répertoire parent, vous pouvez utiliser 
+\mint{python}|touch cd ..|
+ et pour revenir dans votre répertoire principal il suffit de taper 
+\mint{python}|touch cd ~|
+\item[touch] La commande touch vous permet de créer un fichier.
+
+\mint{python}|touch fichieracreer.txt|
+\item [mkdir] La commande mkdir vous permet de créer un dossier.
+\item[cat] La commande cat vous permet d'afficher le contenu d’un fichier. 
+\item pour d'autres commandes cools et utiles, je vous invite à jeter un oeil à \url{https://doc.ubuntu-fr.org/tutoriel/console_commandes_de_base}
+\end{itemize}
+
+\begin{remark} À noter qu’il est possible de passer toutes les options ensemble sous la forme `ls -la` pour que ce soit plus rapide à écrire.\end{remark}
+
+\section{Installer Git}\index{installer GIT}
+
+\paragraph{Linux}\
+
+Téléchargez la dernière version de Git sur : http://git-scm.com/downloads
+Ouvrez le fichier ainsi téléchargé et suivez les instructions en laissant toutes les valeurs par défaut.
+
+Ouvrez la console. Si vous ne savez pas utiliser cette console, allez jeter un œil au rappel au début de ce chapitre. 
+
+Exécutez la commande suivante pour définir votre nom et l’email que vous utiliserez ensuite pour créer votre compte gratuit sur GitHub:
+
+\mint{python}|git config --global user.name "Votre nom ou pseudo"|
+
+\mint{python}| git config --global user.email "Votre@email.com"
+|
+
+Pour vérifier que tout va bien, relancez votre console et tapez simplement \mint{python}| git config --get user.name|. Votre nom doit s'afficher simplement.
+
+\paragraph{Windows}\
+
+Rendez vous sur \url{http://msysgit.github.io} et téléchargez la dernière version disponible. Une fois le fichier récupéré, lancez-le et suivez les instructions. Vous pouvez laisser toutes les configurations par défaut. Cela va vous donner accès à Git ainsi qu’à une console émulant le comportement de Bash, la console sous Linux. Du coup, vous aurez accès aux mêmes commandes que tout le monde (ls, cd, mkdir…).
+
+Maintenant vous allez pouvoir ouvrir l’application “git bash” qui se situe maintenant dans votre menu Démarrer. Si vous ne savez pas utiliser cette console, allez jeter un œil aux rappels du début de ce chapitre.
+
+Exécutez la commande suivante pour définir votre nom et l’email que vous utiliserez ensuite pour créer un compte gratuit sur Github:
+
+\mint{python}|git config --global user.name "Votre nom ou pseudo"|
+\mint{python}|git config --global user.email "votre@email.com"|
+
+
+Pour vérifier que tout va bien, relancez votre console et tapez simplement 'git'. Si l’installation a fonctionné, vous devriez voir du texte en anglais expliquant l’utilisation de Git.
+
+\begin{remark}
+Petite astuce : utilisez la touche "Insert" de votre clavier pour coller du texte dans git bash (ctrl + v ne fonctionnera sur Windows)
+\end{remark}
+
+\section{Faire un commit}\index{commit, faire son premier}
+\begin{remark} Pour suivre ce chapitre, vous allez avoir besoin de vous servir de votre console ! Si vous n'êtes pas encore à l'aise pour la manipuler, retournez faire un tour des rappels sur la console dans le chapitre précédent. C'est  vraiment important que vous maîtrisiez les commandes de base de la console pour tout le reste du cours, donc c'est le moment de vous y attarder si vous en avez besoin !  \end{remark}
+
+\subsection{commit simple}
+Pour commencer, créez un nouveau dossier et positionnez vous dedans avec la console. Vous ne voulez pas versionner l'intégralité de votre ordinateur en lançant  git init dans un dossier comme "Mes Documents" ou "Applications" !\\
+
+Une fois que vous vous êtes placés dans votre nouveau dossier grâce à la commandecd de votre Terminal, créez un nouveau dossier 'monPremierRepo' en lançant la commande suivante : 
+
+\mint{python}|mkdir monPremierRepo|
+
+Vous remarquerez que j'ai appelé ce dossier 'Repo', qui est le petit nom de repository.. car nous allons utiliser ce dossier comme repository, c'est-à-dire comme répertoire de travail géré par Git ! Voici un petit résumé des étapes à suivre : 
+\begin{itemize}
+\item Pour activer un dossier comme repository Git, il suffit de se placer dans ce dossier avec le Terminal puis d'utiliser la commande git init. 
+\item Pour gérer un repository, Git génère un index de tous les fichiers dont il doit faire le suivi. Lorsque vous créez un fichier dans un repository, vous devez donc l'ajouter à l'index Git à l'aide de la commande \mint{python}|git add nomDeVotreFichier.extension|. 
+
+\begin{remark} 
+Pour gagner du temps, vous pouvez ajouter tous les fichiers dans le répertoire courant en tapant
+\mint{python}|git addgit add . | Évidemment, faites bien attention quand vous utilisez ce raccourci à ne pas rajouter trop de fichiers à l'index.
+\end{remark}
+\item Lorsque vous modifiez votre repository, vous devez demander à Git d'enregistrer vos modifications en faisant un git commit. L'option-m vous permet de lui envoyer un message décrivant les modifications effectuées, ce qui s'avèrera très utile pour vous par la suite, you'll see! :) Par exemple : 
+\end{itemize}
+ 
+\mint{python}|git commit -m "Ajouté ma checklist-vacances.md (woohoo!)"|
+
+Bravo, vous avez effectué votre premier commit ! Voyons ce qui se passe lorsque vous en aurez fait plein et que vous aurez besoin de remonter dans le temps... 
+\subsection{commit rapide}
+Petite astuce avant de passer à la suite si vous voulez gagner du temps, maintenant que vous êtes parés pour créer des milliers de commits sans vous perdre ;) .\\ 
+
+Jusqu'ici, lorsque vous mettez à jour un fichier dans votre repository, vous devez procéder en deux étapes : 
+\begin{enumerate}
+\item Ajouter votre fichier à l'index avec la commande  git add,
+\mint{python}|git add checklist-vacances.md|
+\item Faire un commit qui décrit la mise à jour de votre fichier avec la commande  git commit.
+\mint{python}|git commit -m "Ajouté itinéraire dans checklist-vacances.md"|
+\end{enumerate}
+
+Et bien, si vous ne faites que mettre à jour un fichier que vous aviez déjà ajouté à l'index, vous pouvez condenser ces deux étapes de la façon suivante : 
+\mint{python}|git commit -a -m "Ajouté itinéraire dans checklist-vacances.md"|
+
+L'option   -a demande à Git de mettre à jour les fichiers déjà existants dans son index. Pratique, non ? 
+
+C'est parti pour le prochain chapitre : vous avez consulté l'historique de tous vos commits, et vous voulez remonter dans le temps pour vous positionner sur un de ces commits. Suivez le guide ! 
+
+\section{lire l'historique}\index{historique}
+Vous savez enregistrer les modifications de votre repository avec la commande  \textit{git commit}. Au cours d'un projet, vous allez être amenés à faire beaucoup de modifications...\\
+
+ Comment vous y retrouver dans l'historique de vos commits ?\\
+ 
+Grâce à la commande  \textbf{git log}\index{log} qui vous affiche la liste de tous les commits que vous avez réalisés ! 
+
+\begin{remark} Le sens de lecture du log est le suivant : on part du commit le plus récent en haut de la liste, au commit le plus vieux en bas de la liste.  \end{remark}
+
+Dans la liste de cet historique, chaque commit est répertorié avec :
+\begin{itemize}
+\item son SHA : son identifiant unique, qui se présente sous forme d'une longue chaîne de caractères et de nombres. Par exemple : "87753191cef0bdb955a4cb4ff841f7c2cce4cb1c".
+\item son auteur : qui a fait le commit (utile lorsque vous travaillez à plusieurs sur un projet !)
+
+\item sa date 
+\item sa description : vous vous rappelez, c'est le message de description que vous indiquez avec l'option  -m lorsque vous faites votre git commit ? Exemple, avec le fichier que l'on a "commité" dans le chapitre précédent :
+
+\mint{python}|git commit -m "Ajouté ma checklist-vacances.md (woohoo!)"|
+
+... le Git log vous affichera le message "Ajouté ma checklist-vacances (woohoo!)" pour ce commit. 
+\end{itemize}
+
+\begin{remark}Vous comprenez maintenant pourquoi il est important d'écrire un message de description clair lorsque vous faites un commit, vous serez bien content de le retrouver parmi votre pile de commits divers et variés ! \end{remark} 
+
+Et voilà, pour quitter le log, appuyez sur la touche \textbf{Q} de votre clavier.
+
+\section{se positionner sur un commit}\index{commit, se positionner sur}
+
+Lorsque vous effectuez une série de commits sur un projet, il peut vous arriver de vouloir remonter dans le temps à la recherche d'erreurs éventuelles par exemple. Pour vous positionner sur un commit donné de votre historique, il vous suffit d'utiliser la commande git checkout de la façon suivante : 
+
+\mint{python}|git checkout SHADuCommit|
+
+Pour revenir à votre branche principale (au commit le plus récent), on utilise la même commande : 
+
+\mint{python}|git checkout master|
+
+
+\section{annuler un commit}\index{commit, annuler} J'ai fait mon commit un peu trop vite... est-ce que je peux l'annuler ?\\
+
+On ne peut pas vraiment "supprimer" un commit, mais on a plusieurs options pour l'annuler. Cependant, ces options ont des limites et sont à utiliser avec prudence et parcimonie !
+
+e vous présente une de ces options : vous pouvez "revert" un commit, c'est-à-dire créer un nouveau commit qui fait l'inverse du précédent, avec la commande suivante :
+
+\mint{python}|git revert SHADuCommit|
+
+\begin{remark} Attention, ça crée un nouveau commit dans l'historique du coup ! (le commit "inverse" du précédent)
+\end{remark}
+
+Sinon, si vous voulez simplement modifier le message de votre dernier commit, vous pouvez utiliser la commande suivante :
+
+\mint{python}|git commit --amend -m "Votre nouveau message"|
+\begin{remark} ... mais attention, vous ne pouvez modifier ce message que si vous n'avez pas encore pushé votre commit sur l'origine !
+\end{remark}
+
+Je n'ai pas encore fait mon nouveau commit, mais je veux annuler tous les changements que je n'ai pas encore commités. Possible ?
+
+ Possible avec un reset !
+\mint{python}|git reset --hard‌
+|
+
+
+
