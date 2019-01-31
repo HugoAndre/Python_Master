@@ -1,0 +1,173 @@
+\section*{TP : Introduction à la gestion de versions avec Git}
+\textbf{Objectifs} : à l'issue de ce TP, vous devrez savoir
+\begin{itemize}
+\item versionner votre travail en local
+\item annuler des modifications
+\item manipuler les branches pour isoler des développements
+\item interagir avec un dépôt distant
+\item résoudre des conflits simples
+\end{itemize}
+
+
+\textbf{Liens }: il est fortement recommandé de se documenter tout au long du TP
+
+\begin{itemize}
+\item \url{https://git-scm.com/doc} et \url{https://git-scm.com/book/fr/v2}
+\item man git ou git help nom\_commande
+\end{itemize}
+
+\textbf{Note} : Ce TP couvre les mêmes points que gittutorial (man gittutorial). Vous pouvez le lire en parallèle pour
+avoir des explications complémentaires ou le faire ultérieurement. Ceux qui finissent le TP en avance
+peuvent poursuivre avec gittutorial-2.
+
+\section{Exercice 1 : Dépôt local}
+\section{Configuration initiale}
+Nous allons tout d'abord renseigner quelques informations qui seront inscrites dans vos commits.
+\mint{python}| git config --global --add user.name "Prénom Nom"|
+\mint{python}| git config --global --add user.email "prenom.nom@telecomnancy.eu"|
+\mint{python}| git config --global merge.conflictstyle diff3|
+Vérifier la prise en compte de la configuration : 
+\mint{python}|cat ~/.gitconfig|
+Récupérer un .gitignore proposé par github, par exmple celui pour TeX :
+\url{https://github.com/github/gitignore}\\
+Un .gitignore peut être défini soit localement pour chaque dépôt, soit globalement :
+\mint{python}| git config --global core.excludesfile ~/.gitignore_global|
+
+\subsection{Versionner un répertoire local}
+Créer un répertoire local : \mint{python}|mkdir tp_git|, et faites en votre répertoire courant : \mint{python}|cd tp_git|
+Versionner ce répertoire : \mint{python}|git init|, vérifier que le répertoire contenant la base de données de git
+« .git » a bien été créé à la racine : \mint{python}|ls -la .git|
+Ajouter deux fichiers texte dans le répertoire : recipe\_appbread.txt, recipe\_soup.txt .\\
+Indexer ces deux fichiers :\mint{python}| git add nom_fichier|
+Vérifier la prise en compte en observant l'état de l'index (zone de staging) : \mint{python}|git status|
+Enregistrer cette version dans le dépôt : \mint{python}|git commit|
+git ouvre alors un éditeur de texte et vous invite à renseigner le message du commit, entrer un
+message explicite « Ajout des recettes de soupe à l'oignon et d'apple bread ». L'option git
+commit -m "message" permet de tout faire en une commande.\\
+Vérifier la prise en compte du commit en observant le log : git log , observer l'identifiant SHA1.\\
+\subsection{Observer les modifications en cours}
+Faire une première modification dans un fichier et sauvegarder.\\
+Observer les modifications perçues par git grâce à git status, git diff et git diff --cached\\
+Indexer le fichier précédemment modifié : 
+\mint{python}|git add fichiers|
+Observer à nouveau avec les mêmes commandes afin de percevoir ce que fait chacune.
+Commiter cette modification : 
+\mint{python}|git commit -m "message"\ et observer une dernière fois.|
+\section{Annuler ou corriger des modifications}
+\subsection{ Annuler une modification du working directory}
+Modifier et sauvegarder un fichier.\\
+ Cette modification est une erreur, rétablir le fichier tel que définit dans un commit (le dernier) :
+\mint{python}|git checkout SHA1\_ancien\_commit nom\_fichier|
+\subsection{Annuler une modification indexée}
+Modifier et sauvegarder un fichier. Indexer la modification.\\
+Modifier une nouvelle fois le même fichier. Malheureusement, cette nouvelle modification est
+une erreur.\\
+Rétablir le fichier dans l'état où il a été précédemment indexé : \mint{python}|git checkout nom_fichier|
+Finalement, vous décidez de ne pas enregistrer les modification de ce fichier pour le prochain
+commit, désindexer le : \mint{python}|git reset nom_fichier|
+Vérifier l'état de l'index : git status\\
+Rétablir l'ensemble du dépôt tel que définit dans le dernier commit : git reset --hard\\
+\subsection{Annuler une modification enregistrée}
+Modifier et sauvegarder un fichier. Indexer puis enregistrer la modification. Vérifier la prise en
+compte de l'enregistrement avec git log.\\
+ Encore une erreur ! Annuler complètement le dernier commit : \mint{python}|git revert SHA1_dernier_commit|
+ Modifier et sauvegarder un fichier. Indexer puis enregistrer la modification.\\
+  Vous avez oublié de modifier le second fichier. Le modifier et indexer le changement.\\
+   On souhaite maintenant corriger le dernier commit pour y enregistrer les modifications du
+second ficher : git commit --amend (corriger si besoin le message du commit)\\
+ Vérifier que le dernier commit inclut bien désormais la modification du second fichier :
+ \mint{python}|git show HEAD|
+\section{Manipuler les branches}
+\subsection{Créer une nouvelle branche}
+Créer une nouvelle branche de développement : \mint{python}|git branch experimental|
+Changer de branche pour la nouvelle : git checkout experimental\\
+Lister les branches : git branch\\
+Vérifier que la HEAD est bien positionnée sur la nouvelle branche : cat .git/HEAD
+\subsection{Merger (fusionner) deux branches}
+Ajouter une ligne dans un fichier et le sauvegarder. Indexer puis enregistrer la modification.\\
+Vérifier que le commit est bien enregistré : git log\\
+Revenir sur la branche principale : git checkout master\\
+Observer que la modification n'est plus présente dans le fichier précédemment édité ! C'est
+l'intérêt des branches : plusieurs versions co-existent en parallèle.\\
+Vérifier que le précédent commit est absent de cette branche : git log\\
+Pour intégrer les modification de la branche experimental, il faut faire un merge : \mint{python}|git merge experimental|
+Vérifier que les modifications ont bien été intégrées
+\subsection{Visualiser les branches}
+Utiliser l'interface graphique gitk pour visualiser le graphe d'historique : gitk --all\\
+Supprimer la branche : git branch -d experimental
+\section{Utiliser un dépôt distant}
+A partir de cet exercice, il faut travailler en binôme. Pour plus d'info :
+\url{https://git-scm.com/book/fr/v2/Les-branches-avec-Git-Les-branches-distantes}
+\subsection{Créer un dépôt sur GITHUB}
+Aller sur Github , créez vous un compte au nom explicite: Nom\_Prenom\_UJM.\\
+Créer un nouveau projet (repository) appelé "tp\_git\_votrenomdefamille"\\
+partagez le lien http à votre binome et à Hugo ANDRE.
+\subsection{Lier le dépôt local a un dépôt distant}
+Il faut lier votre dépôt local à votre dépôt distant sur la forge :
+\mint{html}|git remote add origin 
+https://git...tp_git_nom.git|
+ « origin » est simplement ici le nom par défaut donné en local à ce dépôt distant\\
+  En cas d'erreur, l'adresse du dépôt distant peut être changée :
+\mint{python}| git remote set-url origin nouvelle_adresse|
+Ou le dépôt distant peut être supprimé : \mint{python}|git remote rm nom_dépôt_distant|
+Lister les dépôts distants : git remote show\\
+Envoyer vos enregistrements sur le dépôt distant : \mint{python}|git push origin master|
+ Si le dépôt distant n'est pas vide, il faut préalablement le merger avec le dépôt local :
+\mint{python}| git pull origin master|
+L'historique des commits doit maintenant apparaître sur l'interface web de la forge : sous-menu
+« Repository » dans le menu de gauche, section « Commits »\\
+Parcourez l'ensemble des menus sous l’arborescence « Repository »
+\subsection{Récupérer un autre dépôt distant}
+Positionnez-vous en dehors de votre dépôt local : cd ..\\
+ Récupérer le dépôt distant de votre binôme : git clone \url{https://gitlab.telecomnancy.univlorraine.fr/PrénomBinôme.NomBinôme/tp_git_nombinôme.git}\\
+ Ajouter une ligne dans un fichier et le sauvegarder. Indexer puis enregistrer la modification.\\
+  Il faut maintenant propager les modification enregistrées localement au dépôt disant :
+\mint{python}|git push|
+Point de synchronisation pour un binôme
+\subsection{Récupérer les modifications enregistrées sur le dépôt distant}
+Votre binôme a enregistré des modifications sur votre dépôt distant, les récupérer :
+\mint{python}|git pull origin master|
+Observer l'historique des commits et vérifier que les modifications ont été prises en compte
+\section{Gérer les conflits}
+\subsection{Générer un conflit}
+Créer un conflit en créant une branche « conflit » et en enregistrant deux modifications
+différentes d'une même ligne d'un fichier, l'une sur la branche master, l'autre sur celle
+nouvellement créée.\\
+ Se replacer sur la branche master et fusionner les branches : git merge doit alors vous notifier
+que des conflits sont apparus
+\subsection{Résoudre un conflit}
+Ouvrir le (ou les) fichier(s) incriminé(s), les marqueurs de conflit <<<<< ||||| >>>>> doivent être
+présents\\
+Résoudre le problème en choisissant pour chaque conflit la modification pertinente ou en
+proposant une nouvelle modification. Ne pas oublier de supprimer les symboles marqueurs de
+conflit. Indexer le fichier.\\
+La résolution du conflit et la validation du merge se fait en enregistrant les modifications. : git
+commit
+\subsection{Appliquer une stratégie de résolution de conflits}
+Supposons que le conflit survienne entre la branche master et une branche liée à un
+développement mineur optionnel. Si l'on ne veut résoudre les conflits manuellement, il est
+possible d'appliquer une stratégie privilégiant la branche master dans tous les cas.\\
+Reprendre la question 1 de cet exercice , en en appliquant une stratégie de résolution :
+\mint{python}|git merge -s ours nom_branche|
+\section{Autres commandes utiles}
+\subsection{Placer un Tag}
+Les tags servent à marquer et à sauvegarder une version précise du projet. Placer un tag sur la
+version courante du projet :
+\mint{python}|git tag -a v1.0|
+La commande git tag (sans argument) liste les tags présents\\
+L'envoi de tags vers un dépôt distant doit se faire explicitement :
+\mint{python}|git push origin v1.0|
+ ou \mint{python}|git push origin –tags|
+\subsection{Identifier le fautif}
+Git permet de visualiser facilement qui a modifié quoi dans un fichier, par exemple de manière à
+identifier le développeur ayant introduit un bug : \mint{python}|git blame nom_fichier|
+Exécuter cette commande sur un fichier dont certaines lignes ont été modifiées par votre binôme
+\subsection{Réécrire l'histoire}
+Il peut être intéressant de réduire et transplanter une branche pour simplifier le graphe des
+commits. Créer une nouvelle branche et faire au moins deux commits dessus.\\
+Transplanter la nouvelle branche sur la branche principale :
+\mint{python}|git rebase --interactive master|
+sélectionner le premier commit (pick) et fusionner les autres (squash)\\
+ Observer le graphe des commits puis propager les modifications sur le dépôt distant\\
+ Enfin, observer l'historique des manipulations du graphe :
+\mint{python}| git reflog|
