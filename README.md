@@ -5,6 +5,10 @@ TD
 
 _structure.ipynb_ : Note book Jupyter sur les structures (if, while, for)
 
+grapheur
+=
+La solution du TD sur le GUI (Interface Graphique)
+
 
 TP
 ==
@@ -21,4 +25,6 @@ essaiQtDesigner
 
 Test de QtDesigner
 
-
+accordeur
+=
+Solution pour l'accordeur
