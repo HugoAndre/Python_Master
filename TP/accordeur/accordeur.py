@@ -19,7 +19,7 @@ from accordeur_ui import Ui_Accordeur
 # Crée une classe définie à partir QMainWindow et de Ui_Grapheur
 class GraphWindow(QMainWindow,Ui_Accordeur):
     fs = 11025
-    Trec= 0.5
+    Trec= 1
     recording=False
     
     nomNotes=('Do','Do#','Ré','Ré#','Mi','Fa','Fa#','Sol','Sol#','La','La#','Si')
@@ -65,27 +65,33 @@ class GraphWindow(QMainWindow,Ui_Accordeur):
         # Traitement du signal indata
         N=np.shape(indata)[0]
         mtf=np.abs(np.fft.fft(indata[:,0]))
+        # Met à zéro entre 0 et 30 Hz (présence de parasites dans cette zone)
+        mtf[0:int(30/self.fs*N)]=0
         pmax=np.argmax(mtf)
         
         # Retrouve la note associée voir tableau https://fr.wikipedia.org/wiki/Note_de_musique
-        ref=440*2**(-9/12-3) # Part de la3 pour obtenir de do0 (3 octaves 9 demis ton en -)
-        tonf=np.log2(pmax/N*self.fs/ref)*12    # 0 correspond au DO octave 0 (32.7 Hz)
-        ton=int(np.round(tonf))
-        octave=ton//12
-        note=ton % 12
+        if pmax>0:
+            ref=440*2**(-9/12-3) # Part de la3 pour obtenir de do0 (3 octaves 9 demis ton en -)
+            tonf=np.log2(pmax/N*self.fs/ref)*12    # 0 correspond au DO octave 0 (32.7 Hz)
+            ton=int(np.round(tonf))
+            octave=ton//12
+            note=ton % 12
         
-        # Affiche la note
-        self.Note.setText("{:5d} Hz : {:3s}{:d}".format(int(pmax/N*self.fs),self.nomNotes[note],octave))
-        self.Note.update() # Force à redessiner
-        
-        # Met à jour le curseur d'ajustement
-        self.Ajustement.setValue(int((tonf-ton)*100))
-        self.Ajustement.update() # Force à redessiner
+            # Affiche la note
+            self.Note.setText("{:5d} Hz : {:3s}{:d}".format(int(pmax/N*self.fs),self.nomNotes[note],octave))
+            self.Note.update() # Force à redessiner
+            
+            # Met à jour le curseur d'ajustement
+            #self.Ajustement.setValue(int((tonf-ton)*100))
+            #self.Ajustement.update() # Force à redessiner
+        else:
+            self.Note.setText("????")
         
         # Affiche la courbe
         freq=np.arange(N)/N*self.fs
         self.Courbe.canvas.ax.cla()
         self.Courbe.canvas.ax.plot(freq[0:N//2],mtf[0:N//2],'b',freq[pmax],mtf[pmax],'ro')
+        #self.Courbe.canvas.ax.plot(indata[:,0])
         self.Courbe.canvas.ax.set_xlabel('Frequence [Hz]')
         self.Courbe.canvas.draw()
         
